@@ -40,25 +40,23 @@ public class BookController {
         return ResponseUtil.buildResponse(HttpStatus.OK, Constant.SUCCESS_DELETE_BOOK, null);
     }
 
-//    @GetMapping
-//    public ResponseEntity<?> getAllBook(
-//            @RequestParam(name = "title", required = false) String title,
-//            @RequestParam(name = "author", required = false) String author,
-//            @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
-//            @RequestParam(name = "size", required = false, defaultValue = "10") Integer size,
-//            @RequestParam(name = "sort", required = false, defaultValue = "name") String sort
-//    ) {
-//     SearchBookRequest searchBookRequest = SearchBookRequest.builder()
-//             .title(title)
-//             .author(author)
-//             .page(page)
-//             .size(size)
-//             .sort(sort)
-//             .build();
-//
-//     Page<BookResponse> bookResponses = bookService.getAllBook(searchBookRequest);
-//
-//     return ResponseUtil.buildResponse(HttpStatus.OK, Constant.SUCCESS_GET_ALL_BOOK, bookResponses);
-//    }
+    @GetMapping
+    public ResponseEntity<?> getAllBook(
+            @RequestParam(name = "title", required = false) String title,
+            @RequestParam(name = "author", required = false) String author,
+            @RequestParam(name = "page", defaultValue = "1") Integer page,
+            @RequestParam(name = "size", defaultValue = "10") Integer size,
+            @RequestParam(name = "sort", defaultValue = "title") String sort
+    ) {
+        SearchBookRequest searchBookRequest = SearchBookRequest.builder()
+                .title(title)
+                .author(author)
+                .page(page)
+                .size(size)
+                .sort(sort).build();
+
+        Page<BookResponse> bookResponses = bookService.getAll(searchBookRequest);
+        return ResponseUtil.buildPageResponse(HttpStatus.OK, Constant.SUCCESS_GET_ALL_BOOK, bookResponses);
+    }
 }
 

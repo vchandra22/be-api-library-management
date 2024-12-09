@@ -18,8 +18,9 @@ public class BookSpecification {
             @Override
             public Predicate toPredicate(Root<Book> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
+
                 if (StringUtils.hasText(searchBookRequest.getTitle())) {
-                    predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + searchBookRequest.getTitle().toLowerCase() + "%" ));
+                    predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("title")), "%" + searchBookRequest.getTitle().toLowerCase() + "%" ));
                 }
 
                 if (StringUtils.hasText(searchBookRequest.getAuthor())) {
@@ -30,27 +31,11 @@ public class BookSpecification {
                     }
                 }
 
-                if (StringUtils.hasText(searchBookRequest.getPublisher())) {
-                    try {
-                        predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("publisher")), "%" + searchBookRequest.getPublisher().toLowerCase() + "%" ));
-                    } catch (IllegalArgumentException e) {
-                        throw new IllegalArgumentException("Invalid search parameter: " + searchBookRequest.getPublisher());
-                    }
-                }
-
-                if (StringUtils.hasText(searchBookRequest.getYear())) {
-                    try {
-                        predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("year")), "%" + searchBookRequest.getYear().toLowerCase() + "%" ));
-                    } catch (IllegalArgumentException e) {
-                        throw new IllegalArgumentException("Invalid search parameter: " + searchBookRequest.getYear());
-                    }
-                }
-
                 if (!predicates.isEmpty()) {
                     return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
                 }
 
-                return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         };
     }

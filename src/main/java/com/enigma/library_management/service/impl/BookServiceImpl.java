@@ -66,17 +66,15 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<BookResponse> getAllBook(SearchBookRequest searchBookRequest) {
+    public Page<BookResponse> getAll(SearchBookRequest searchBookRequest) {
         Pageable bookPageable = PageRequest.of(
                 (searchBookRequest.getPage() - 1),
                 searchBookRequest.getSize(),
                 SortUtil.parseSortFromQueryParam(searchBookRequest.getSort())
         );
-
-        Specification<Book> bookSpecification = BookSpecification.getSpecification(searchBookRequest);
-        Page<Book> bookPage = bookRepository.findAll(bookSpecification, bookPageable);
-
-        return bookPage.map(this::toBookResponse);
+        Specification<Book> menuSpecification = BookSpecification.getSpecification(searchBookRequest);
+        Page<Book> bookPage = bookRepository.findAll(menuSpecification, bookPageable);
+        return bookPage.map(book -> toBookResponse(book));
     }
 
     @Override

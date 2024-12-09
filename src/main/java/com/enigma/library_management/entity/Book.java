@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -28,7 +30,7 @@ public class Book {
     @Column(name = "publisher", nullable = false)
     private String publisher;
 
+    @Temporal(TemporalType.DATE)
     @Column(name = "year", nullable = false)
-    private String year;
-
+    private Date year;
 }

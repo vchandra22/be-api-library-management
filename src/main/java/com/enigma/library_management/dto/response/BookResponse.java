@@ -2,6 +2,8 @@ package com.enigma.library_management.dto.response;
 
 import lombok.*;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -12,5 +14,5 @@ public class BookResponse {
     private String title;
     private String author;
     private String publisher;
-    private String year;
+    private Date year;
 }
