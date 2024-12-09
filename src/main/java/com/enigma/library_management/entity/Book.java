@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -33,4 +35,16 @@ public class Book {
     @Temporal(TemporalType.DATE)
     @Column(name = "year", nullable = false)
     private Date year;
+
+    @ManyToOne
+    @JoinColumn(name = "library_id", nullable = false)
+    private Library library;
+
+    @ManyToMany
+    @JoinTable(
+            name = Constant.BOOK_CATEGORY_TABLE,
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories = new ArrayList<>();
 }
