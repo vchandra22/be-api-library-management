@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @Entity
+@Builder
 @Table(name = Constant.LIBRARY_TABLE)
 public class Library {
     @Id

@@ -3,6 +3,7 @@ package com.enigma.library_management.entity;
 import com.enigma.library_management.constant.Constant;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 @Entity
 @Table(name = Constant.CATEGORY_TABLE)
 public class Category {

@@ -26,7 +26,7 @@ public class BookController {
         return ResponseUtil.buildResponse(HttpStatus.CREATED, Constant.SUCCESS_CREATE_BOOK, bookResponse);
     }
 
-    @GetMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateBook(@PathVariable String id, @RequestBody BookRequest bookRequest) {
         BookResponse bookResponse = bookService.updateBook(id, bookRequest);
 
