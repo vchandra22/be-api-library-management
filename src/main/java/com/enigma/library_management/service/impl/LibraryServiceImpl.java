@@ -64,7 +64,10 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     public List<LibraryResponse> getAll() {
-        return List.of();
+        return libraryRepository.findAll()
+                .stream()
+                .map(this::toLibraryResponse)
+                .toList();
     }
 
     private LibraryResponse toLibraryResponse(Library library) {

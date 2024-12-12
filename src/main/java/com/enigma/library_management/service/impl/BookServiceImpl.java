@@ -4,7 +4,11 @@ import com.enigma.library_management.dto.request.BookRequest;
 import com.enigma.library_management.dto.request.SearchBookRequest;
 import com.enigma.library_management.dto.response.BookResponse;
 import com.enigma.library_management.entity.Book;
+import com.enigma.library_management.entity.Category;
+import com.enigma.library_management.entity.Library;
 import com.enigma.library_management.repository.BookRepository;
+import com.enigma.library_management.repository.CategoryRepository;
+import com.enigma.library_management.repository.LibraryRepository;
 import com.enigma.library_management.service.BookService;
 import com.enigma.library_management.specification.BookSpecification;
 import com.enigma.library_management.util.SortUtil;
@@ -17,10 +21,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
+    private final LibraryRepository libraryRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public BookResponse getBookById(String id) {
@@ -31,11 +39,21 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookResponse createBook(BookRequest bookRequest) {
+        Library library = libraryRepository.findById(bookRequest.getLibrary())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Library Not Found"));
+
+        List<Category> categories = categoryRepository.findAllById(bookRequest.getCategory());
+        if (categories.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category Not Found");
+        }
+
         Book book = Book.builder()
                 .title(bookRequest.getTitle())
                 .author(bookRequest.getAuthor())
                 .publisher(bookRequest.getPublisher())
                 .year(bookRequest.getYear())
+                .library(library)
+                .categories(categories)
                 .build();
 
         bookRepository.saveAndFlush(book);
@@ -47,11 +65,21 @@ public class BookServiceImpl implements BookService {
     public BookResponse updateBook(String id, BookRequest bookRequest) {
         Book currentBook = getOne(id);
 
+        Library library = libraryRepository.findById(bookRequest.getLibrary())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Library Not Found"));
+
+        List<Category> categories = categoryRepository.findAllById(bookRequest.getCategory());
+        if (categories.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category Not Found");
+        }
+
         currentBook.setId(id);
         currentBook.setTitle(bookRequest.getTitle());
         currentBook.setAuthor(bookRequest.getAuthor());
         currentBook.setPublisher(bookRequest.getPublisher());
         currentBook.setYear(bookRequest.getYear());
+        currentBook.setLibrary(library);
+        currentBook.setCategories(categories);
 
         bookRepository.saveAndFlush(currentBook);
 
@@ -91,6 +119,15 @@ public class BookServiceImpl implements BookService {
         bookResponse.setAuthor(book.getAuthor());
         bookResponse.setPublisher(book.getPublisher());
         bookResponse.setYear(book.getYear());
+
+        if (book.getLibrary() != null) {
+            bookResponse.setLibrary(String.valueOf(book.getLibrary().getName()));
+        }
+
+        List<String> categories = book.getCategories().stream()
+                .map(Category::getName)
+                .toList();
+        bookResponse.setCategory(categories);
 
         return bookResponse;
     }
