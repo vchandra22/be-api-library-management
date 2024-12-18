@@ -4,12 +4,20 @@ public class Constant {
     public static final String BOOK_API = "/api/v1/books";
     public static final String CATEGORY_API = "/api/v1/categories";
     public static final String LIBRARY_API = "/api/v1/libraries";
+    public static final String AUTH_API = "api/v1/auth";
 
+    public static final String USER_TABLE = "m_user";
     public static final String BOOK_TABLE = "m_book";
     public static final String LIBRARY_TABLE = "m_library";
     public static final String CATEGORY_TABLE = "m_category";
     public static final String BOOK_CATEGORY_TABLE = "book_categories";
     public static final String BORROW_TRANSACTION_TABLE = "borrow_transactions";
+
+    public static final String SUCCESS_LOGIN = "Successfully Login";
+    public static final String SUCCESS_REGISTER = "Successfully Register";
+    public static final String ERROR_CREATE_TOKEN = "Error Create Token";
+    public static final String ERROR_INVALID_CREDENTIALS = "Invalid Credentials";
+    public static final String ERROR_USERNAME_EXIST = "Username Already Exist";
 
     public static final String SUCCESS_CREATE_BOOK = "Successfully Created Book";
     public static final String SUCCESS_UPDATE_BOOK = "Successfully Updated Book";
