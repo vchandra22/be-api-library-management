@@ -1,5 +1,6 @@
 package com.enigma.library_management.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.util.Date;
@@ -15,6 +16,7 @@ public class BookResponse {
     private String title;
     private String author;
     private String publisher;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy")
     private Date year;
     private String library;
     private List<String> category;

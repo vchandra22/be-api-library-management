@@ -21,6 +21,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalAccessor;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -47,11 +54,18 @@ public class BookServiceImpl implements BookService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category Not Found");
         }
 
+        Date yearDate = bookRequest.getYear();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(yearDate);
+        calendar.set(Calendar.MONTH, 0);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        Date formattedYear = calendar.getTime();
+
         Book book = Book.builder()
                 .title(bookRequest.getTitle())
                 .author(bookRequest.getAuthor())
                 .publisher(bookRequest.getPublisher())
-                .year(bookRequest.getYear())
+                .year(formattedYear)
                 .library(library)
                 .categories(categories)
                 .build();
