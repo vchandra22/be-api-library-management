@@ -17,7 +17,7 @@ Konfigurasi untuk aplikasi ini terdapat di file `application.properties`. Beriku
 ```properties
 # Application Configuration
 spring.application.name=library-management
-server.port=8086
+server.port=8088
 
 # Database Configuration
 spring.datasource.driver-class-name=org.postgresql.Driver
@@ -65,9 +65,11 @@ Aplikasi akan berjalan di `http://localhost:8086` secara default.
 ### 5. Mengakses Endpoint API
 Berikut adalah beberapa endpoint utama yang disediakan oleh aplikasi ini:
 
+- **Authentication API**: `/api/v1/auth`
 - **Books API**: `/api/v1/books`
 - **Categories API**: `/api/v1/categories`
 - **Libraries API**: `/api/v1/libraries`
+- **Documentation API Swagger**: `/swagger-ui.html`
 
 Anda dapat menggunakan alat seperti Postman atau cURL untuk mengakses API ini.
 
